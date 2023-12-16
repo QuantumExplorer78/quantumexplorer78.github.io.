@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solange's Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="character"></div>
+        <div id="ground"></div>
+    </div>
+
+</body>
+</html>
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: #87CEEB; /* Sky Blue */
+}
+
+#character {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 50px;
+    height: 70px;
+    background: url('https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/riche/OneDrive/Pictures/Schermafbeeldingen/Solange.png?version%3D1702718865529solange.png') no-repeat;
+    background-size: cover;
+}
+
+#ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #228B22; /* Forest Green */
+}
