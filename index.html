@@ -8,35 +8,128 @@
 <body>
     
 </body>
-</html>function initSnowfall() {
-    for (let i = 0; i < 100; i++) {
-        snowflakes.push(createSnowflake());
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowfall Animation</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snowCanvas" width="800" height="600"></canvas>
+
+    <script>
+        // import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class WinterWonderland extends JFrame {
+    private SnowfallPanel snowfallPanel;
+
+    public WinterWonderland() {
+        setTitle("Winter Wonderland");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        snowfallPanel = new SnowfallPanel();
+        add(snowfallPanel);
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                snowfallPanel.changeTheme();
+            }
+        });
+        timer.start();
     }
 
-    drawSnowfall();
-}
-
-function createSnowflake() {
-    return {
-        x: Math.random() * canvas.width,
-        y: 0,
-        size: Math.random() * 5 + 2,
-        speed: Math.random() * 3 + 1,
-    };
-}
-
-function drawSnowflake(snowflake) {
-    ctx.beginPath();
-    ctx.arc(snowflake.x, snowflake.y, snowflake.size, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-}
-
-function updateSnowflake(snowflake) {
-    snowflake.y += snowflake.speed;
-
-    if (snowflake.y > canvas.height) {
-        snowflake.y = 0;
-        snowflake.x = Math.random() * canvas.width;
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new WinterWonderland().setVisible(true);
+            }
+        });
     }
 }
+
+class SnowfallPanel extends JPanel {
+    private int flakes = 100;
+    private Snowflake[] snowflakes;
+
+    public SnowfallPanel() {
+        snowflakes = new Snowflake[flakes];
+        for (int i = 0; i < flakes; i++) {
+            snowflakes[i] = new Snowflake();
+        }
+
+        Timer timer = new Timer(30, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                moveSnowflakes();
+                repaint();
+            }
+        });
+        timer.start();
+    }
+
+    private void moveSnowflakes() {
+        for (Snowflake flake : snowflakes) {
+            flake.move();
+        }
+    }
+
+    public void changeTheme() {
+        setBackground(new Color(
+                (int) (Math.random() * 256),
+                (int) (Math.random() * 256),
+                (int) (Math.random() * 256)
+        ));
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        for (Snowflake flake : snowflakes) {
+            flake.draw(g);
+        }
+    }
+}
+
+class Snowflake {
+    private int x;
+    private int y;
+    private int speed;
+
+    public Snowflake() {
+        this.x = (int) (Math.random() * 800);
+        this.y = (int) (Math.random() * 600);
+        this.speed = (int) (Math.random() * 3) + 1;
+    }
+
+    public void move() {
+        y += speed;
+
+        if (y > 600) {
+            y = 0;
+            x = (int) (Math.random() * 800);
+        }
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillOval(x, y, 5, 5);
+    }
+}
+
+    </script>
+
+</body>
+</html>
