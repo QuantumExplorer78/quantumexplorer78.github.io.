@@ -2,119 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     
 </body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winter Wonderland</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-            transition: background-color 1s ease;
-        }
+</html>function initSnowfall() {
+    for (let i = 0; i < 100; i++) {
+        snowflakes.push(createSnowflake());
+    }
 
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
+    drawSnowfall();
+}
 
-        #clock {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
+function createSnowflake() {
+    return {
+        x: Math.random() * canvas.width,
+        y: 0,
+        size: Math.random() * 5 + 2,
+        speed: Math.random() * 3 + 1,
+    };
+}
 
-    <canvas id="snowCanvas"></canvas>
+function drawSnowflake(snowflake) {
+    ctx.beginPath();
+    ctx.arc(snowflake.x, snowflake.y, snowflake.size, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+}
 
-    <div id="clock"></div>
+function updateSnowflake(snowflake) {
+    snowflake.y += snowflake.speed;
 
-    <script>
-        // Snowfall animation
-        const canvas = document.getElementById('snowCanvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let snowflakes = [];
-
-        function createSnowflake() {
-            return {
-                x: Math.random() * canvas.width,
-                y: 0,
-                size: Math.random() * 5 + 2,
-                speed: Math.random() * 3 + 1,
-            };
-        }
-
-        function drawSnowflake(snowflake) {
-            ctx.beginPath();
-            ctx.arc(snowflake.x, snowflake.y, snowflake.size, 0, Math.PI * 2);
-            ctx.fillStyle = '#fff';
-            ctx.fill();
-        }
-
-        function updateSnowflake(snowflake) {
-            snowflake.y += snowflake.speed;
-
-            if (snowflake.y > canvas.height) {
-                snowflake.y = 0;
-                snowflake.x = Math.random() * canvas.width;
-            }
-        }
-
-        function drawSnowfall() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < snowflakes.length; i++) {
-                drawSnowflake(snowflakes[i]);
-                updateSnowflake(snowflakes[i]);
-            }
-
-            requestAnimationFrame(drawSnowfall);
-        }
-
-        function initSnowfall() {
-            for (let i = 0; i < 100; i++) {
-                snowflakes.push(createSnowflake());
-            }
-
-            drawSnowfall();
-        }
-
-        // Clock and dynamic theme change
-        function updateClock() {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-
-            // Dynamic theme change every minute
-            if (seconds === '00') {
-                const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
-                document.body.style.backgroundColor = randomColor;
-            }
-        }
-
-        setInterval(updateClock, 1000);
-        initSnowfall();
-    </script>
-
-</body>
-</html>
+    if (snowflake.y > canvas.height) {
+        snowflake.y = 0;
+        snowflake.x = Math.random() * canvas.width;
+    }
+}
